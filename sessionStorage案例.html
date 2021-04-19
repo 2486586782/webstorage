@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <label for="user">账号：<input type="text" id="user"></label>
+   <label for="pass">密码：<input type="password" id="pass"></label>
+   <button id="btn">设置</button>
+   <div id="isshow"></div>
+<script>
+    let user=document.getElementById("user");
+    let pass=document.getElementById("pass");
+    let btn=document.getElementById("btn");
+    let isshow=document.getElementById("isshow");
+
+    isshow.innerHTML="账号："+sessionStorage.getItem("user")+"<br/>密码"+sessionStorage.getItem("pass");
+    btn.onclick=function(){
+        sessionStorage.setItem("user",user.value);
+        sessionStorage.setItem("pass",pass.value);
+        isshow.innerHTML="账号："+user.value+"<br/>密码"+pass.value;
+    }
+
+</script>
+</body>
+</html>

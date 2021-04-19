@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage</title>       
+</head>
+<body>
+    <button id="btn1">保存数据</button>                    <!--localStorage永久保存客户端少量的数据-->
+    <button id="btn2">读取数据</button>
+    <button id="btn3">删除数据</button>
+    <button id="btn4">清空数据</button>
+    <script>
+let btn1=document.getElementById("btn1")
+let btn2=document.getElementById("btn2")
+let btn3=document.getElementById("btn3")
+let btn4=document.getElementById("btn4")
+let peron={name:"起灵",age:"23"}
+btn1.onclick=function(){
+   localStorage.setItem("101",JSON.stringify(peron))     //setItem（key,value）保存数据
+}
+
+console.log(JSON.stringify(peron))
+console.log(typeof(JSON.stringify(peron)))
+//JSON.stringify()将对象变成了字符串
+
+
+btn2.onclick=function(){
+  console.log(JSON.parse(localStorage.getItem("101")))   //getItem(key) 获取数据
+}
+//JSON.parse()将字符串还原成对象
+
+
+
+btn3.onclick=function(){
+    localStorage.removeItem("101")    //removeItem删除数据
+}
+
+
+btn4.onclick=function(){
+    localStorage.clear()        //清空数据clear()
+}
+
+
+</script>
+</body>
+</html>
