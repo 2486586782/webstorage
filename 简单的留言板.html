@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="list"></ul>
+    <textarea id="tex" cols="30" rows="10"></textarea><br/>
+    <input type="button" id="btn" value="发表"/>
+    <input type="button" id="clearbtn" value="清空">
+
+    <script>
+        let list=document.getElementById("list");
+        let tex=document.getElementById("tex");
+        let btn=document.getElementById("btn");
+        let cleatebtn=document.getElementById("clearbtn")
+
+        btn.onclick=function(){
+            let key="";
+            for(let i=0;i<4;i++){
+                key+=Math.floor(Math.random()*10)
+            }
+            let texvalue=tex.value;
+            localStorage.setItem(key,texvalue);
+            let oli=document.createElement("li");
+            oli.innerHTML=key+":"+texvalue;
+            list.appendChild(oli);
+            tex.value="";
+        }
+
+      cleatebtn.onclick=function(){
+          localStorage.clear();
+          list.innerHTML="";
+      }
+      //页面加载读取数据
+       for(let i=0;i<localStorage.length;i++){
+          let strkey=localStorage.key(i);
+          let strvalue=localStorage.getItem(strkey)
+          let olivalue=document.createElement("li");
+          olivalue.innerHTML=strkey+":"+strvalue;
+          list.appendChild(olivalue)
+      }
+    </script>
+</body>
+</html>
