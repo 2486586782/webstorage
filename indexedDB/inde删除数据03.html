@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let request=window.indexedDB.open("mytable",1.0);
+request.onerror=function(){
+console.log("打开表失败")};
+request.onsuccess=function(e){
+console.log("打开表成功！");
+let db=e.target.result;
+console.log(db);
+//打开数据库，获取数据库
+let transaction=db.transaction(["mybooks"],"readwrite");
+//开启事务
+let store= transaction.objectStore("mybooks");
+//连接表
+var scsc=store.delete(1006);
+scsc.onerror=function(){
+ console.log("删除失败")
+};
+scsc.onsuccess=function(){
+console.log("删除成功")
+}
+//删除表数据操作;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>indexedDB</title>
+</head>
+<body>
+    
+
+<script>
+let request=window.indexedDB.open("mytable",1.0);         //对象数据库
+request.onerror=function(){
+    console.log("创建数据库失败！")                    //请求成功发生                      数据库的创建
+};
+request.onsuccess=function(e){
+    console.log('创建数据库成功')                   //请求失败发生
+};
+
+//数据
+let data=[{
+    id:1001,
+    name:"张起灵",
+     age:23},{
+         id:1002,
+        name:"吴邪",
+        age:23},{
+            id:1003,
+          name:"王胖子",
+           age:23
+        }];
+
+
+request.onupgradeneeded=function(e){        //对象产库的创建                                  表的创建
+    let db=e.target.result;     //获取创建的数据库
+   // console.log(db);
+if(!db.objectStoreNames.contains("mybooks")){              //判断mybooks产库是否存在
+        var store=db.createObjectStore("mybooks",{keyPath:"id"});          //创建数据库，设置表的主键
+//如果让主键是一个递增的数字 var store=db.createObjectStore("mybooks",{autoIncrement:true}); 
+
+        for(let i=0;i<data.length;i++){
+            var addRequest=store.add(data[i]);   //向数据库store增加数据
+
+            addRequest.onerror=function(){
+                console.log("增加表数据失败！")   //增加表数据失败！
+            };
+            addRequest.onsuccess=function(){
+                console.log("增加表数据成功！")   //增加表数据成功
+            };
+        }
+    }
+};
+
+
+
+</script>
+</body>
+</html>

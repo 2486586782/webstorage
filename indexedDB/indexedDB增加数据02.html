@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var data=[
+    {
+    id:1004,
+    name:"黑瞎子",
+     age:23},
+     {
+         id:1005,
+        name:"小花",
+        age:23},
+        {
+          id:1006,
+          name:"三叔",
+           age:45
+        }];
+//数据内容
+let request=window.indexedDB.open("mytable",1.0);
+ request.onerror=function(){
+console.log("打开表失败")};
+request.onsuccess=function(e){
+console.log("打开表成功！");
+let db=e.target.result;//获取数据库
+//console.log(db);
+
+let transaction=db.transaction(["mybooks"],"readwrite");
+//开启事务
+let store= transaction.objectStore("mybooks");
+//连接表数据
+for(let i=0;i<data.length;i++){
+let dataRequest=store.add (data[i]);
+dataRequest.onerror=function(){
+ console.log("增加失败！")
+};
+dataRequest.onsuccess=function(){
+console.log("增加成功！")
+};}//增加数据内容
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let request= window.indexedDB.open("mytable",1.0);
+ request.onerror=function(){
+ console.log("打开数据库失败")};
+ request.onsuccess=function(e){
+console.log("打开数据库成功")
+let db=e.target.result;
+
+let transaction=db.transaction(["mybooks"],"readwrite");
+let store=transaction.objectStore("mybooks");
+
+let value={
+    id:1005,
+    name:"黑眼睛",
+    age:25,
+};
+
+var gg=store.put(value);
+gg.onerror=function(){
+ console.log("更改失败")
+};
+gg.onsuccess=function(){
+ console.log("更改成功")
+};}
+</script>
+</body>
+</html>

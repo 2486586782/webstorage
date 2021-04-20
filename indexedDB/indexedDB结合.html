@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="creator">创建数据库数据库表</button>
+    <button id="remo">删除数据库</button>
+    <button id="add">增</button>
+    <button id="del">删</button>
+    <button id="change">改</button>
+    <button id="select">查</button>
+    <button id="removalue">清空数据库数据</button>
+    <script>
+     let remo=document.getElementById("remo");
+     let creator=document.getElementById("creator");
+     let add=document.getElementById("add");
+     let del =document.getElementById("del");
+     let change=document.getElementById("change");
+     let select=document.getElementById("select");
+     let removalue=document.getElementById("removalue");
+    
+       creator.onclick=function(){
+        let request=window.indexedDB.open("mytable",1.0);      //创建数据库
+          //数据
+        let data=[{
+        id:1001,
+        name:"张起灵",
+        age:23},{
+         id:1002,
+         name:"吴邪",
+           age:23},{
+            id:1003,
+          name:"王胖子",
+           age:23
+        }];
+    request.onupgradeneeded=function(e){      // 表的创建
+    let db=e.target.result;               //获取当前的数据库对象
+    if(!db.objectStoreNames.contains("mybooks")){   ////判断mybooks表是否存在
+        let store=db.createObjectStore("mybooks",{keyPath:"id"});          //创建mybooks表赋值给store，设置表的主键
+       //如果让主键是一个递增的数字 var store=db.createObjectStore("mybooks",{autoIncrement:true}); 
+       for(let i=0;i<data.length;i++){
+                   store.add(data[i]);     //向store表增加数据
+    }}}
+     }
+
+//增加数据
+     add.onclick=function(){
+     let data2=[     //数据
+    {
+    id:1004,
+    name:"黑瞎子",
+     age:23},
+     {
+         id:1005,
+        name:"小花",
+        age:23},
+        {
+          id:1006,
+          name:"三叔",
+           age:45
+    }];
+let request=window.indexedDB.open("mytable",1.0);//打开数据库
+request.onsuccess=function(e){
+console.log("打开表成功！");//获取数据库
+let db=e.target.result;//获取当前的数据库对象
+let transaction=db.transaction(["mybooks"],"readwrite");//开启事务
+let store= transaction.objectStore("mybooks");//连接表数据
+for(let i=0;i<data2.length;i++){
+store.add (data2[i]);}             //增加内容
+}
+}
+
+//表数据删除
+del.onclick=function(){
+let request=window.indexedDB.open("mytable",1.0);
+request.onsuccess=function(e){
+console.log("打开表成功！");
+let db=e.target.result;
+//打开数据库，获取数据库
+let transaction=db.transaction(["mybooks"],"readwrite");
+//开启事务
+let store= transaction.objectStore("mybooks");
+//连接表
+store.delete(1006);
+//删除表数据操作;
+}
+}
+
+
+//修改数据
+change.onclick=function(){
+    let request= window.indexedDB.open("mytable",1.0);
+    request.onsuccess=function(e){
+    console.log("打开数据库成功")
+    let db=e.target.result;
+    let transaction=db.transaction(["mybooks"],"readwrite");
+    let store=transaction.objectStore("mybooks");
+   let value={
+    id:1005,
+    name:"黑眼睛",
+    age:25,
+};
+store.put(value);
+}
+}
+
+//查询
+select.onclick=function(){
+let request= window.indexedDB.open("mytable",1.0);
+request.onsuccess=function(e){
+console.log("打开数据库成功")
+let db=e.target.result;
+let transaction=db.transaction(["mybooks"],"readwrite");
+let store=transaction.objectStore("mybooks");
+let sc =store.get(1001);
+sc.onsuccess=function(){
+if(this.result==undefined){
+console.log("没有符合条件");
+}else{
+ console.log(this.result); }
+}
+};
+}
+
+//清空数据库数据
+removalue.onclick=function(){
+let request= window.indexedDB.open("mytable",1.0);
+request.onsuccess=function(e){
+console.log("打开数据库成功")
+let db=e.target.result;
+let transaction=db.transaction(["mybooks"],"readwrite");
+let store=transaction.objectStore("mybooks");
+var qk=store.clear();
+}
+}
+
+
+//表的删除
+remo.onclick=function(){
+window.indexedDB.deleteDatabase("mytable");
+}
+</script>
+</body>
+</html>
